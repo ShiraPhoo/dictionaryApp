@@ -1,0 +1,89 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap");
+
+*,
+::before,
+::after {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+body {
+  font-family: "Inter", sans-serif;
+  background-color: #426b77;
+}
+#header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 90px;
+  color: #b2fa45;
+  position: relative;
+}
+#header h1 {
+  font-size: 40px;
+  color: white;
+  margin-bottom: 8px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+#header .subText {
+  font-weight: 300;
+  margin-bottom: 28px;
+}
+.search__icon {
+  font-size: 15px;
+  position: absolute;
+  color: gray;
+  margin-top: 15px;
+  margin-left: 10px;
+}
+input[type="text"] {
+  width: 500px;
+  padding: 15px 30px;
+  border-radius: 30px;
+  border: none;
+  margin-bottom: 40px;
+  box-shadow: 5px 5px 15px -5px rgba(0, 0, 0, 0.3);
+}
+input[type="text"]:focus {
+  outline: none;
+  border: none;
+  box-shadow: 0 0 5px #f6ffe9;
+}
+.searchCard {
+  width: 900px;
+  height: auto;
+  border: 1px solid white;
+  border-radius: 15px;
+  box-shadow: 5px 5px 15px -5px rgba(0, 0, 0, 0.3);
+  overflow: auto;
+  padding: 20px 50px;
+  display: none;
+}
+.search__words {
+  line-height: 20px;
+}
+.words {
+  font-size: 25px;
+}
+.type {
+  font-size: 20px;
+  color: #deb35b;
+}
+.pronun {
+  font-weight: 300;
+  color: #67f9e4;
+}
+.content {
+  display: flex;
+  padding: 15px 0px;
+}
+img {
+  width: 150px;
+  border-radius: 50%;
+  margin-right: 30px;
+}
+.example {
+  font-weight: 200;
+  color: #bfe5d6;
+}
