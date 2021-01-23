@@ -37,7 +37,7 @@ async function callApi(word) {
   });
 
   result = await getApi.json();
-
+  // console.log(result[0].message);
   renderUI(result);
   hideLoading();
 }
