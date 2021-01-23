@@ -1,10 +1,31 @@
 var search = document.querySelector("#searchValue");
 var searchDiv = document.querySelector(".search__words");
 
+function showLoading() {
+  let loadingDiv = document.createElement("section");
+  loadingDiv.id = "loading-container";
+
+  let loader = document.createElement("div");
+  loader.className = "loader";
+
+  loadingDiv.appendChild(loader);
+  document.body.insertBefore(loadingDiv, document.body.children[0]);
+  console.log(loadingDiv);
+}
+
+function hideLoading() {
+  document.body.children[0].remove();
+}
+
 searchBar.onsubmit = (e) => {
   e.preventDefault();
   var word = search.value;
-  word ? callApi(word) : "";
+
+  // word ? callApi(word) : "";
+  if (word) {
+    showLoading();
+    callApi(word);
+  }
   search.value = "";
 };
 
@@ -16,12 +37,14 @@ async function callApi(word) {
   });
 
   result = await getApi.json();
-  console.log(result);
+
   renderUI(result);
+  hideLoading();
 }
 
 function renderUI(result) {
   document.querySelector(".searchCard").style.display = "block";
+
   searchDiv.innerHTML = "";
 
   for (let res of result.definitions) {
