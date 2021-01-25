@@ -1,5 +1,6 @@
 var search = document.querySelector("#searchValue");
 var searchDiv = document.querySelector(".search__words");
+var notFoundPage = document.querySelector(".notFoundPage");
 
 function showLoading() {
   let loadingDiv = document.createElement("section");
@@ -10,7 +11,6 @@ function showLoading() {
 
   loadingDiv.appendChild(loader);
   document.body.insertBefore(loadingDiv, document.body.children[0]);
-  console.log(loadingDiv);
 }
 
 function hideLoading() {
@@ -37,82 +37,51 @@ async function callApi(word) {
   });
 
   result = await getApi.json();
-  // console.log(result[0].message);
   renderUI(result);
   hideLoading();
 }
 
 function renderUI(result) {
   document.querySelector(".searchCard").style.display = "block";
-
   searchDiv.innerHTML = "";
 
-  for (let res of result.definitions) {
-    if (res.image_url === null && result.pronunciation === null) {
-      searchDiv.innerHTML = `
-    <p class="words">
-    ${result.word}
-    <span class="type"><i> ${res.type}</i></span></p>
-    <hr />
-    <div class="content">
-        
-    <div class="word__content">
-      <p class="defination">
-       ${res.definition}
-      </p>
-      <p class="example">
-        "${res.example}"
-      </p>
-    </div>
-  </div>`;
-    } else if (res.example === "null" || res.example === "") {
-      searchDiv.innerHTML = `
-        <p class="words">
-        ${result.word}
-        <span class="type"><i> ${res.type}</i></span></p>
-        <p class="pronun">/${result.pronunciation}/</p>
-        <hr />
-
-        <div class="content">
-            <div class="image">
-            <img
-                src=${res.image_url}
-                alt="image"
-            />
-            </div>
-        <div class="word__content">
-          <p class="defination">
-           ${res.definition}
-          </p>
-         
-        </div>
-      </div>`;
-    } else if (res.image_url === null) {
-      searchDiv.innerHTML = `
-        <p class="words">
-        ${result.word}
-        <span class="type"><i> ${res.type}</i></span></p>
-        <p class="pronun">/${result.pronunciation}/</p>
-        <hr />
-
-        <div class="content">
-            
-        <div class="word__content">
-          <p class="defination">
-           ${res.definition}
-          </p>
-          <p class="example">
-            "${res.example}"
-          </p>
-        </div>
-      </div>`;
-    } else {
-      searchDiv.innerHTML = `
+  if (result[0]) {
+    notFoundPage.style.display = "block";
+    for (let obj of result) {
+      if (obj.message === "No definition :(") {
+        document.querySelector(".searchCard").style.display = "none";
+        notFoundPage.innerHTML = `
+        <p>Sorry 🥺! We don't find your words!</p>`;
+      }
+    }
+  } else {
+    notFoundPage.style.display = "none";
+    for (let res of result.definitions) {
+      if (res.image_url === null && result.pronunciation === null) {
+        searchDiv.innerHTML = `
+      <p class="words">
+      ${result.word}
+      <span class="type"><i> ${res.type}</i></span></p>
+      <hr />
+      <div class="content">
+          
+      <div class="word__content">
+        <p class="defination">
+         ${res.definition}
+        </p>
+        <p class="example">
+          "${res.example}"
+        </p>
+      </div>
+    </div>`;
+      } else if (res.example === "null" || res.example === "") {
+        searchDiv.innerHTML = `
           <p class="words">
           ${result.word}
           <span class="type"><i> ${res.type}</i></span></p>
           <p class="pronun">/${result.pronunciation}/</p>
           <hr />
+  
           <div class="content">
               <div class="image">
               <img
@@ -124,11 +93,52 @@ function renderUI(result) {
             <p class="defination">
              ${res.definition}
             </p>
+           
+          </div>
+        </div>`;
+      } else if (res.image_url === null) {
+        searchDiv.innerHTML = `
+          <p class="words">
+          ${result.word}
+          <span class="type"><i> ${res.type}</i></span></p>
+          <p class="pronun">/${result.pronunciation}/</p>
+          <hr />
+  
+          <div class="content">
+              
+          <div class="word__content">
+            <p class="defination">
+             ${res.definition}
+            </p>
             <p class="example">
               "${res.example}"
             </p>
           </div>
         </div>`;
+      } else {
+        searchDiv.innerHTML = `
+            <p class="words">
+            ${result.word}
+            <span class="type"><i> ${res.type}</i></span></p>
+            <p class="pronun">/${result.pronunciation}/</p>
+            <hr />
+            <div class="content">
+                <div class="image">
+                <img
+                    src=${res.image_url}
+                    alt="image"
+                />
+                </div>
+            <div class="word__content">
+              <p class="defination">
+               ${res.definition}
+              </p>
+              <p class="example">
+                "${res.example}"
+              </p>
+            </div>
+          </div>`;
+      }
     }
   }
 }
